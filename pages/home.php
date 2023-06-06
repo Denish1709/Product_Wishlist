@@ -1,20 +1,18 @@
 <?php
 
-
 if ( class_exists( 'Products' ) )
     $products = new Products();
 
 // Only change code below this line
 
-// Instruction: require all the files you need here. Tips: (includes/functions.php, includes/class-products.php)
-
-
-$product= $products->getProducts();
-if($_SERVER['REQUEST_METHOD']=='POST'){
-    $products->toggleWishlist($_POST['id']);
-}
+// instructions: get all products from the database and store them in the $products variable
+$allproduct = $products->getProducts();
+// if($_SERVER['REQUEST_METHOD']=='POST'){
+//     $products->toggleWishlist($_POST['id']);
+// }
 
 // Only change code above this line
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +30,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     />
     <style type="text/css">
         body {
-            background: #F1F1F1;
+            background: #f1f1f1;
         }
     </style>
 </head>
@@ -40,11 +38,11 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 <div class="container mt-5 mb-2 mx-auto" style="max-width: 900px;">
     <!-- Only change code below this line -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
-        <?php foreach($product as $product) : ?>
+        <?php foreach ($allproduct as $product) : ?>
             <div class="col">
                 <div class="card h-100">
                     <form
-                            action="<?php echo $_SERVER['REQUEST_URI']; ?>"
+                            action="wishlist/submit"
                             method="post">
                         <input type="hidden" name="id" value="<?= $product['id']?>">
                         <input type="hidden" name="is_wishlist" value="<?= $product['is_wishlist'];?>">
@@ -57,15 +55,13 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                         </button>
                     </form>
                     <img
-                            src="<?= $product['image_url']; ?>"
+                            src=<?= $product['image_url']; ?>
                             class="card-img-top"
                             alt="Product 1"
                     />
                     <div class="card-body text-center">
-                        <h5 class="card-title"><?= $product['name'];?></h5>
-                        <p class="card-text">
-                            <?= '$'.$product['price']; ?>
-                        </p>
+                        <h5 class="card-title"><?= $product['name']; ?></h5>
+                        <p class="card-text">$<?= $product['price']; ?></p>
                     </div>
                 </div>
             </div>
